@@ -1,13 +1,17 @@
-# Lugiax是什么
-lugiax是一种解决react项目路由和数据状态管理的技术方案。
+# Lugiax 是什么
 
-lugiax是lugia生态中不可缺少的一部分，已直服务了lugia-mega、lugia-admin等多个项目。
+lugiax 是一种解决 react 项目路由和数据状态管理的技术方案。
 
-# Lugiax设计理念
-1. 简化开发难度。开箱即用。lugiax是为了配合lugia生态单独设计开发的。让前端开发者在不需要了解redux和react-router技术的情况下，也能开发业务。上开发者更多的精力投入到业务开发中。
-2. 数据状态使用了不可变数据类型Immutable。避免了数据篡改。
-3. 修改数据状态的唯一方式是通过mutation。
-# Lugiax目录结构
+lugiax 是 lugia 生态中不可缺少的一部分，已直服务了 lugia-mega、lugia-admin 等多个项目。
+
+# Lugiax 设计理念
+
+1. 简化开发难度。开箱即用。lugiax 是为了配合 lugia 生态单独设计开发的。让前端开发者在不需要了解 redux 和 react-router 技术的情况下，也能开发业务。上开发者更多的精力投入到业务开发中。
+2. 数据状态使用了不可变数据类型 Immutable。避免了数据篡改。
+3. 修改数据状态的唯一方式是通过 mutation。
+
+# Lugiax 目录结构
+
 ```
 |-- lugiax
 | |-- packages
@@ -36,54 +40,72 @@ lugiax是lugia生态中不可缺少的一部分，已直服务了lugia-mega、lu
 | | | | |-- Loading.js
 | | | | |-- router.js
 ```
-# Lugiax如何工作
+
+# Lugiax 如何工作
+
 ![图片](https://uploader.shimo.im/f/njpLgK9r2k8QGpAY.jpg!thumbnail)
 
-# lugiax快速上手
-# 环境准备
-安装 [node](https://nodejs.org/en/).js。
+# lugiax 快速上手
 
-也可以选择本机安装nvm进行node.js的安装管理。
+# 环境准备
+
+安装[node](https://nodejs.org/en/).js。
+
+也可以选择本机安装 nvm 进行 node.js 的安装管理。
 
 # 安装依赖
+
 ## npm
+
 ```
 npm install @lugia/lugiax
 ```
+
 ## yarn
->推荐使用 yarn 管理 npm 依赖
+
+> 推荐使用 yarn 管理 npm 依赖
+
 ```
 yarn add @lugia/lugiax
 ```
+
 # 模型注册
-## register方法
+
+## register 方法
+
 ### 描述
->使用register方法注册model到lugiax，通过bind、bindTo、connect方法。将注册的model和组件进行绑定。
+
+> 使用 register 方法注册 model 到 lugiax，通过 bind、bindTo、connect 方法。将注册的 model 和组件进行绑定。
+
 ### 方法使用简述
-```
+
+```javascript
 import lugaix from '@lugia/lugiax';
 lugaix.register({ model: string,state: Object,mutations?: Mutations});
 ```
+
 ### 参数描述
-* model
-  * 注册model名称
-  *  数据类型
-    * string
-* state
-  * 注册model的初始值，在lugaix内部会将state对象会被被转换成Immutable类型
-  * 数据类型
-    * object
-* mutations
-  * 存放用户自定义的修改state同步或者异步的方法。
-  * 数据类型
-    * object
-  * 语法结构
+
+- model
+  - 注册 model 名称
+  - 数据类型
+    - string
+- state
+  - 注册 model 的初始值，在 lugaix 内部会将 state 对象会被转换成 Immutable 类型
+  - 数据类型
+    - object
+- mutations
+  - 存放用户自定义的修改 state 同步或者异步的方法。
+  - 数据类型
+    - object
+  - 语法结构
+
 ```
 {
   async:{
-    fn1(state,inputParameter,{mutations,getState}){}
+    async fn1(state,inputParameter,{mutations,getState}){}
     ...
-    fn10(state,inputParameter,{mutations,getState}){}
+    async fn10(state,inputParameter,{mutations,getState}){}
   },
   sync:{
     fn1(state,inputParameter,{mutations,getState}){}
@@ -92,41 +114,45 @@ lugaix.register({ model: string,state: Object,mutations?: Mutations});
   }
 }
 ```
->备注：async中的方法。在register后会被修改方法名称。eg：fn1 => asyncFn1 ,调用是需要注意。
+
+> 备注：async 中的方法。在 register 后会被修改方法名称。eg：fn1 => asyncFn1 ,调用是需要注意。
+
 ### 函数返回值
-* model
-  * model名称
-  * 数据类型
-    * string
-* mutations
-  * 更新model中state状态的方法
-  * 数据类型
-    * object
-* getState 
-  * 获取当前model最新的state数据
-  * 数据类型
-    * function
-* addMutation 
-  * 向已注册的model，添加同步更新state数据的方法
-  * 数据类型
-    * function
-* addAsyncMutation
-  * 向已注册的model，添加异步修改state数据的方法
-  * 数据类型
-    * function
-* destroy
-  * 销毁注册的模块
-  * 数据类型
-    * function
+
+- model
+  - model 名称
+  - 数据类型
+    - string
+- mutations
+  - 更新 model 中 state 状态的方法
+  - 数据类型
+    - object
+- getState
+  - 获取当前 model 最新的 state 数据
+  - 数据类型
+    - function
+- addMutation
+  - 向已注册的 model，添加同步更新 state 数据的方法
+  - 数据类型
+    - function
+- addAsyncMutation
+  - 向已注册的 model，添加异步修改 state 数据的方法
+  - 数据类型
+    - function
+- destroy
+  - 销毁注册的模块
+  - 数据类型
+    - function
+
 ## 示例代码
-### 在lugiax中注册model
+
+### 在 lugiax 中注册 model
+
 ```
 // model.js
 import lugaix from '@lugia/lugiax';
 import { fromJS } from 'immutable';
-const userModelName = 'userModel';
-
-const userState = {
+const userModelName = 'userModel';const userState = {
   peoples: [],
 };
   
@@ -167,75 +193,89 @@ export const userModel = lugaix.register({
   },
 });
 ```
-* 返回值
+
+- 返回值
 
 ![图片](https://uploader.shimo.im/f/9oaqgh0qSNsDXUjc.jpg!thumbnail)
 
 # 组件绑定
+
 ## bind
+
 ### 描述
-* 将注册的model和自定义组件进行双向绑定。在组件中this.props中就可以获取到model中的state数据和用于更新state的mutation方法
-* model数据改变后组件也会重新render被绑定组件。也可以通过调用mutation方法去改model中的数据，从而引起被绑定组件render。
->备注：一个自定义组件只能bind绑定一个model
+
+- 将注册的 model 和自定义组件进行双向绑定。在组件中 this.props 中就可以获取到 model 中的 state 数据和用于更新 state 的 mutation 方法
+- model 数据改变后组件也会重新 render 被绑定组件。也可以通过调用 mutation 方法去改 model 中的数据，从而引起被绑定组件 render。
+  > 备注：一个自定义组件只能 bind 绑定一个 model
+
 ### 使用简述
+
 ```
 import { bind } from "@lugia/lugiax";
-const newComponent = bind(
-  model, // object 
-  mapModelState,  // function
-  mapModelMutations, // object
-  ?option // object
+constnewComponent = bind(
+model,// object
+mapModelState, // function
+mapModelMutations, // object
+?option // object
 )(ReactComponent);
 ```
+
 ### 参数描述
-* model
-  * 使用lugaix.register() 方法返回的对象
-  * 数据类型
-    * object
-* mapModelState
-  * 函数方法，使用者通过这个方法定义如何从model中获取的state值，并将获取到的state值存放在对象中返回，最终bind会将返回对象的属性映射到被绑定组件的 this.props 中。
-  * 数据类型
-    * function
-* mapModelMutations
-  * 使用者通过这个对象定义如何使用model中的mutation方法，最终bind会将这个对象属性映射到被绑定组件的 this.props 中
-  * 数据类型
-    * function
-* option 其他扩展参数
-  * props  
-    * 传入一些属性值，bind会将这些属性映射到被绑定组件的 this.props 中。
-    * 数据类型
-      * object
-  * eventHandle 
-    * 传入处理函数，bind会将这个对象属性映射到被绑定组件的 this.props 中，当调用组件在props中的函数、mapModelMutations映射的函数、eventHandle传入的函数名字相同，会将三个函数合并为一个新函数，并在传给被bind的组件，这个新函数会依次执行以上三个函数。
-    * 数据类型
-      * { [eventName: string] : Function }
-  * withRef
-    * withRef是true时，可在bind()后返回的组件的ref中拿到被bind组件的实例(返回值的target属性)。可以调用被bind组件上的方法或者属性。如果withRef是false时，拿到被bind组件的实例
-    * 数据类型
-      * boolean
-  * areStateEqual
-    * 用户自定义方法, 当方法返回true时bind后的组件会被 render，当方法返回值为false时bind后的组件不会被render。
-    * 数据类型
-      * (oldModelState, newModelState)  => { return true or false}
-        * oldModelState是model改前的数据
-        * newModelState是model改后的数据
-  * areStatePropsEqual
-    * 用户自定义方法，当这个方法返回true时bind后的组件会被 render，方法返回值为false时bind后的组件不会被render。
-    * 数据类型
-      * (oldState, newState)  => { return true or false}
-        * oldState组件更新前的state数据，对应的是model上state映射到this.props的值
-        * newState更新后的state数据，对应的是model上state映射this.props的值
-  * areOwnPropsEqual
-    * 用户自定义方法，当这个方法返回true时bind后的组件会被 render，方法返回值为false时bind后的组件不会被render。
-    * 数据类型
-      * (oldProps, newProps)  => { return true or false}
-        * oldProps 是bind后的组件props改变前的数据，对应的是bind后返回组件在调用是传入的props属性值
-        * oldProps 是bind后的组件props改变后的数据， 对应的是bind后返回组件在调用是传入的props属性值
->备注：areStateEqual 、areStatePropsEqual 、areOwnPropsEqual阻止刷新的优先级顺序
->areStateEqual >  areStatePropsEqual   > areOwnPropsEqual
+
+- model
+
+  - 使用 lugaix.register() 方法返回的对象
+  - 数据类型
+    - object
+
+- mapModelState
+  - 函数方法，使用者通过这个方法定义如何从 model 中获取的 state 值，并将获取到的 state 值存放在对象中返回，最终 bind 会将返回对象的属性映射到被绑定组件的 this.props 中。
+  - 数据类型
+    - function
+- mapModelMutations
+  - 使用者通过这个对象定义如何使用 model 中的 mutation 方法，最终 bind 会将这个对象属性映射到被绑定组件的 this.props 中
+  - 数据类型
+    - function
+- option 其他扩展参数
+  _ props
+  _ 传入一些属性值，bind 会将这些属性映射到被绑定组件的 this.props 中。
+  _ 数据类型
+  _ object
+  _ eventHandle
+  _ 传入处理函数，bind 会将这个对象属性映射到被绑定组件的 this.props 中，当调用组件在 props 中的函数、mapModelMutations 映射的函数、eventHandle 传入的函数名字相同，会将三个函数合并为一个新函数，并在传给被 bind 的组件，这个新函数会依次执行以上三个函数。
+  _ 数据类型
+  _ { [eventName: string] : Function }
+  _ withRef
+  _ withRef 是 true 时，可在 bind()后返回的组件的 ref 中拿到被 bind 组件的实例(返回值的 target 属性)。可以调用被 bind 组件上的方法或者属性。如果 withRef 是 false 时，拿到被 bind 组件的实例
+  _ 数据类型
+  _ boolean
+  _ areStateEqual
+  _ 用户自定义方法, 当方法返回 true 时 bind 后的组件会被 render，当方法返回值为 false 时 bind 后的组件不会被 render。
+  _ 数据类型
+  _ (oldModelState, newModelState) => { return true or false}
+  _ oldModelState 是 model 改前的数据
+  _ newModelState 是 model 改后的数据
+  _ areStatePropsEqual
+  _ 用户自定义方法，当这个方法返回 true 时 bind 后的组件会被 render，方法返回值为 false 时 bind 后的组件不会被 render。
+  _ 数据类型
+  _ (oldState, newState) => { return true or false}
+  _ oldState 组件更新前的 state 数据，对应的是 model 上 state 映射到 this.props 的值
+  _ newState 更新后的 state 数据，对应的是 model 上 state 映射 this.props 的值
+  _ areOwnPropsEqual
+  _ 用户自定义方法，当这个方法返回 true 时 bind 后的组件会被 render，方法返回值为 false 时 bind 后的组件不会被 render。
+  _ 数据类型
+  _ (oldProps, newProps) => { return true or false}
+  _ oldProps 是 bind 后的组件 props 改变前的数据，对应的是 bind 后返回组件在调用是传入的 props 属性值
+  _ oldProps 是 bind 后的组件 props 改变后的数据， 对应的是 bind 后返回组件在调用是传入的 props 属性值
+  > 备注：areStateEqual 、areStatePropsEqual 、areOwnPropsEqual 阻止刷新的优先级顺序
+  > areStateEqual > areStatePropsEqual > areOwnPropsEqual
+
 ## 示例代码
-### **使用 bind 将简单数据model和组件进行绑定**
-* 在lugaix中注册model
+
+### **使用 bind 将简单数据 model 和组件进行绑定**
+
+- 在 lugaix 中注册 model
+
 ```
 // model.js
 import lugaix, { bind } from "@lugia/lugiax";
@@ -257,7 +297,9 @@ const titleModel = lugaix.register({
 });
 export default titleModel;
 ```
-* 使用bind将model和组件绑定
+
+- 使用 bind 将 model 和组件绑定
+
 ```
 // app.js
 import React from "react";
@@ -291,10 +333,11 @@ const App = bind(
   }
 )(InputTitle);
 ```
-### export default App;
 
-**使用 bind 将复杂数据model和组件进行绑定**
-* 在lugaix中注册model
+### export default App;**使用 bind 将复杂数据 model 和组件进行绑定**
+
+- 在 lugaix 中注册 model
+
 ```
 // model.js
 import lugaix from "@lugia/lugiax";
@@ -317,7 +360,9 @@ const titleModel = lugaix.register({
 });
 export default titleModel;
 ```
-* 使用bind将model和组件绑定
+
+- 使用 bind 将 model 和组件绑定
+
 ```
 import React from "react";
 import { bind } from "@lugia/lugiax";
@@ -351,9 +396,12 @@ const App = bind(
 )(InputTitle);
 export default App;
 ```
-### **bind方法中 options 的使用 **
-### props  示例 
-在lugaix中注册model
+
+### **bind 方法中 options 的使用**
+
+### props 示例
+
+在 lugaix 中注册 model
 
 ```
 import lugaix from '@lugia/lugiax';
@@ -377,7 +425,9 @@ const titleModel = lugaix.register({
 });
 export default titleModel;
 ```
-使用bind将model和组件绑定
+
+使用 bind 将 model 和组件绑定
+
 ```
 import React from "react";
 import { bind } from "@lugia/lugiax";
@@ -416,12 +466,15 @@ const App = bind(
 )(InputTitle);
 export default App;
 ```
+
 运行结果
 ![图片](https://uploader.shimo.im/f/45KS2dYIBgIyl5E3.jpg!thumbnail)
 
->备注：options.props属性会覆盖model中state映射到props中的值
-### eventHandle 示例  
-在lugaix中注册model
+> 备注：options.props 属性会覆盖 model 中 state 映射到 props 中的值
+
+### eventHandle 示例
+
+在 lugaix 中注册 model
 
 ```
 import lugaix from '@lugia/lugiax';
@@ -444,7 +497,9 @@ const titleModel = lugaix.register({
 });
 export default titleModel;
 ```
-使用bind将model和组件绑定
+
+使用 bind 将 model 和组件绑定
+
 ```
 import React from 'react';
 import { bind } from '@lugia/lugiax';
@@ -494,12 +549,15 @@ const OutApp = () => {
 };
 export default OutApp;
 ```
+
 运行结果
 ![图片](https://uploader.shimo.im/f/qWwTGKvls2wKedFL.jpg!thumbnail)
 
->备注：调用组件在props中的函数、mapModelMutations映射的函数、eventHandle传入的函数名字相同，会将三个函数合并为一个新函数，并在传给被bind的组件，这个新函数会依次执行以上三个函数。
-### areStateEqual 示例 
-在lugaix中注册model
+> 备注：调用组件在 props 中的函数、mapModelMutations 映射的函数、eventHandle 传入的函数名字相同，会将三个函数合并为一个新函数，并在传给被 bind 的组件，这个新函数会依次执行以上三个函数。
+
+### areStateEqual 示例
+
+在 lugaix 中注册 model
 
 ```
 import lugaix from '@lugia/lugiax';
@@ -522,7 +580,9 @@ const titleModel = lugaix.register({
 });
 export default titleModel;
 ```
-使用bind将model和组件绑定
+
+使用 bind 将 model 和组件绑定
+
 ```
 import React from 'react';
 import { bind } from '@lugia/lugiax';
@@ -567,11 +627,13 @@ const App = bind(
 )(InputTitle);
 export default App;
 ```
+
 运行结果
 ![图片](https://uploader.shimo.im/f/n1XtSrEWU2AVbCEh.png!thumbnail)
 
-### areStatePropsEqual 示例 
-在lugaix中注册model
+### areStatePropsEqual 示例
+
+在 lugaix 中注册 model
 
 ```
 import lugaix from '@lugia/lugiax';
@@ -594,7 +656,9 @@ const titleModel = lugaix.register({
 });
 export default titleModel;
 ```
-使用bind将model和组件绑定
+
+使用 bind 将 model 和组件绑定
+
 ```
 import React from 'react';
 import { bind } from '@lugia/lugiax';
@@ -639,11 +703,13 @@ const App = bind(
 )(InputTitle);
 export default App;
 ```
+
 运行结果
 ![图片](https://uploader.shimo.im/f/BlQ0N5ndR3ElmolP.png!thumbnail)
 
-### areOwnPropsEqual示例 
-在lugaix中注册model
+### areOwnPropsEqual 示例
+
+在 lugaix 中注册 model
 
 ```
 import lugaix from '@lugia/lugiax';
@@ -666,7 +732,9 @@ const titleModel = lugaix.register({
 });
 export default titleModel;
 ```
-使用bind将model和组件绑定
+
+使用 bind 将 model 和组件绑定
+
 ```
 // app.js
 import React from 'react';
@@ -687,13 +755,13 @@ class InputTitle extends React.Component<any, any> {
       </div>
     );
   }
-}
-const App = bind(
-  titleModel,
-  state => {
-    return { title: state.getIn(['data', 'title']) };
-  },
-  {
+  }
+  const App = bind(
+    titleModel,
+    state => {
+      return { title: state.getIn(['data', 'title']) };
+    },
+    {
     onChange(mutations, e) {
       return mutations.modifyTitle(e.target.value);
     },
@@ -708,9 +776,7 @@ const App = bind(
       return flag;
     },
   }
-)(InputTitle);
-
-export default class Test extends React.Component {
+)(InputTitle);export default class Test extends React.Component {
   constructor() {
     super();
     this.state = {
@@ -748,11 +814,13 @@ export default class Test extends React.Component {
   }
 }
 ```
+
 运行结果
 ![图片](https://uploader.shimo.im/f/yso8xkJRzmwOpDxq.png!thumbnail)
 
-### withRef 示例 
-在lugaix中注册mode
+### withRef 示例
+
+在 lugaix 中注册 mode
 
 ```
 import lugaix from "@lugia/lugiax";
@@ -775,7 +843,9 @@ const titleModel = lugaix.register({
 });
 export default titleModel;
 ```
-使用bind将model和组件绑定
+
+使用 bind 将 model 和组件绑定
+
 ```
 // App.js
 import React from 'react';
@@ -810,9 +880,7 @@ const App = bind(
   {
     withRef: true,
   }
-)(InputTitle);
-
-export default class Test extends React.Component {
+)(InputTitle);export default class Test extends React.Component {
   constructor() {
     super();
     this.state = {
@@ -835,72 +903,82 @@ export default class Test extends React.Component {
   }
 }
 ```
+
 运行结果
 ![图片](https://uploader.shimo.im/f/nCkyWvFlN80PqqMA.jpg!thumbnail)
 
 ## bindTo
+
 ### 描述
-* bindTo是对bind方法的封装。使用者可以省略了自己编写从model取值的代码，只需传入model中state属性和组件props属性的对应关系即可。
->备注：一个自定义组件只能bind绑定一个model
+
+- bindTo 是对 bind 方法的封装。使用者可以省略了自己编写从 model 取值的代码，只需传入 model 中 state 属性和组件 props 属性的对应关系即可。
+  > 备注：一个自定义组件只能 bind 绑定一个 model
+
 ### 使用简述
+
 ```
 import { bind } from "@lugia/lugiax";
 const newComponent = bind(
-  model, // object 
-  bindConfig,  // object || string
-  eventConfig, // object
-  ?option // object
+model,// object
+bindConfig,// object || string
+eventConfig,// object
+?option// object
 )(ReactComponent);
 ```
+
 ### 参数描述
-* model
-  * 使用lugaix.register() 方法返回的model对象
-  * 数据类型
-    * object
-* bindConfig
-  * model中state属性映射到组件props属性的对应关系，对象value值表示props的属性 对象的key值表示model中state属性。  props[value] === model.state[key]
-  * 数据类型
-    * object | string
-      * 当这个值是对象时存储了model中state和组件Props属性取值的对应关系，bindTo会根据这个对应关系自动生成取值方法并将属性映射到被绑定组件的 this.props 中。
-      * 当这个值是一个string时,bindTo会将model中state和组件Props属性取值对应关系会变成{[string]:‘value’}。然后会根据这个对应关系自动生成取值方法并将属性映射到被绑定组件的 this.props 中。
-* eventConfig
-  * 使用者通过这个对象定义如何使用model中的mutation方法，最终bindTo会将这个对象属性映射到被绑定组件的 this.props 中。
-  * 数据类型 
-    * object
-* option 其他扩展参数
-  * props  
-    * 传入一些属性值，bindTo会将这个对象属性映射到被绑定组件的 this.props 中。
-    * 数据类型
-      * object 
-  * eventHandle 
-    * 传入处理函数，bindTo会将这个对象属性映射到被绑定组件的 this.props 中。调用组件在props中的函数、mapModelMutations映射的函数、eventHandle传入的函数名字相同，会将三个函数合并为一个新函数，并在传给被bind的组件，这个新函数会依次执行以上三个函数。
-    * 数据类型
-      * { [eventName: string] : Function }
-  * withRef
-    * withRef是true时，可在bind()后返回的组件的ref中拿到被bind组件的实例。可以调用被bind组件上的方法或者属性(返回值的target属性)。如果withRef是false时，拿到被bind组件的实例
-    * 数据类型
-      * boolean
-  * areStateEqual
-    * 用户自定义阻止组件render函数, 当方法返回true时bind后的组件会被 render，当方法返回值为false时bind后的组件不会被render。
-    * 数据类型
-      * (oldModelState, newModelState)  => { return true or false}
-        * oldModelState是model改前的数据
-        * newModelState是model改后的数据
-  * areStatePropsEqual
-    * 用户自定义方法，当这个方法返回true时bind后的组件会被 render，方法返回值为false时bind后的组件不会被render。
-    * 数据类型
-      * (oldState, newState)  => { return true or false}
-        * oldState组件更新前的state数据，对应的是model上state映射到this.props的值
-        * newState更新后的state数据，对应的是model上state映射this.props的值
-    *   * areOwnPropsEqual
-    * 用户自定义方法，当这个方法返回true时bind后的组件会被 render，方法返回值为false时bind后的组件不会被render。
-    * 数据类型
-      * (oldProps, newProps)  => { return true or false}
-        * oldProps 是bind后的组件props改变前的数据，对应的是bind后返回组件在调用是传入的props属性值
-        * oldProps 是bind后的组件props改变后的数据， 对应的是bind后返回组件在调用是传入的props属性值
+
+- model
+  - 使用 lugaix.register() 方法返回的 model 对象
+  - 数据类型
+    - object
+- bindConfig
+  - model 中 state 属性映射到组件 props 属性的对应关系，对象 value 值表示 props 的属性对象的 key 值表示 model 中 state 属性。props[value] ===model.state[key]
+  - 数据类型
+    - object | string
+      - 当这个值是对象时存储了 model 中 state 和组件 Props 属性取值的对应关系，bindTo 会根据这个对应关系自动生成取值方法并将属性映射到被绑定组件的 this.props 中。
+      - 当这个值是一个 string 时,bindTo 会将 model 中 state 和组件 Props 属性取值对应关系会变成{[string]:‘value’}。然后会根据这个对应关系自动生成取值方法并将属性映射到被绑定组件的 this.props 中。
+- eventConfig
+  - 使用者通过这个对象定义如何使用 model 中的 mutation 方法，最终 bindTo 会将这个对象属性映射到被绑定组件的 this.props 中。
+  - 数据类型
+    - object
+- option 其他扩展参数
+  - props
+    - 传入一些属性值，bindTo 会将这个对象属性映射到被绑定组件的 this.props 中。
+    - 数据类型
+      - object
+  - eventHandle
+    - 传入处理函数，bindTo 会将这个对象属性映射到被绑定组件的 this.props 中。调用组件在 props 中的函数、mapModelMutations 映射的函数、eventHandle 传入的函数名字相同，会将三个函数合并为一个新函数，并在传给被 bind 的组件，这个新函数会依次执行以上三个函数。
+    - 数据类型
+      - { [eventName: string] : Function }
+  - withRef
+    - withRef 是 true 时，可在 bind()后返回的组件的 ref 中拿到被 bind 组件的实例。可以调用被 bind 组件上的方法或者属性(返回值的 target 属性)。如果 withRef 是 false 时，拿到被 bind 组件的实例
+    - 数据类型
+      - boolean
+  - areStateEqual
+    - 用户自定义阻止组件 render 函数, 当方法返回 true 时 bind 后的组件会被 render，当方法返回值为 false 时 bind 后的组件不会被 render。
+    - 数据类型
+      - (oldModelState, newModelState) => { return true or false}
+        - oldModelState 是 model 改前的数据
+        - newModelState 是 model 改后的数据
+  - areStatePropsEqual
+    - 用户自定义方法，当这个方法返回 true 时 bind 后的组件会被 render，方法返回值为 false 时 bind 后的组件不会被 render。
+    - 数据类型
+      - (oldState, newState) => { return true or false}
+        - oldState 组件更新前的 state 数据，对应的是 model 上 state 映射到 this.props 的值
+        - newState 更新后的 state 数据，对应的是 model 上 state 映射 this.props 的值
+    -     * areOwnPropsEqual
+    - 用户自定义方法，当这个方法返回 true 时 bind 后的组件会被 render，方法返回值为 false 时 bind 后的组件不会被 render。
+    - 数据类型
+      - (oldProps, newProps) => { return true or false}
+        - oldProps 是 bind 后的组件 props 改变前的数据，对应的是 bind 后返回组件在调用是传入的 props 属性值
+        - oldProps 是 bind 后的组件 props 改变后的数据， 对应的是 bind 后返回组件在调用是传入的 props 属性值
+
 ## 示例代码
-### **使用 bindTo 将简单数据model和组件进行绑定**
-在lugaix中注册mode
+
+### **使用 bindTo 将简单数据 model 和组件进行绑定**
+
+在 lugaix 中注册 mode
 
 ```
 // model.js
@@ -918,7 +996,9 @@ const titleModel = lugaix.register({
 });
 export default titleModel;
 ```
-使用bindTo 将model和组件绑定
+
+使用 bindTo  将 model 和组件绑定
+
 ```
 // app.js
 import React from 'react';
@@ -959,26 +1039,30 @@ const App = bindTo(
 )(InputTitle);
 export default App;
 ```
-### **使用 bindTo 将复杂数据model和组件进行绑定**
-在lugaix中注册mode
+
+### **使用 bindTo 将复杂数据 model 和组件进行绑定**
+
+在 lugaix 中注册 mode
 
 ```
 // model.js
 import lugaix from '@lugia/lugiax';
 const titleState = {
-  form: {
-    title: '嵌套数据',
-  },
+form: {
+title: '嵌套数据',
+},
 };
 const modelName = 'testTitle';
 const titleModel = lugaix.register({
-  model: modelName,
-  state: titleState,
-  mutations: {},
+model: modelName,
+state: titleState,
+mutations: {},
 });
 export default titleModel;
 ```
-使用bindTo 将model和组件绑定
+
+使用 bindTo  将 model 和组件绑定
+
 ```
 // app.js
 import React from 'react';
@@ -1018,69 +1102,79 @@ const App = bindTo(
 )(InputTitle);
 export default App;
 ```
+
 ## connect
+
 ### 描述
-* 将注册的一个或者多个model和组件进行绑定。在组件中props中就可以获取到model中state的数据。可以通过调用mutation方法去改model中的数据，从而引起被绑定组件render。
+
+- 将注册的一个或者多个 model 和组件进行绑定。在组件中 props 中就可以获取到 model 中 state 的数据。可以通过调用 mutation 方法去改 model 中的数据，从而引起被绑定组件 render。
+
 ### 使用简述
+
 ```
 import { connect } from "@lugia/lugiax";
 const newComponent = connect(
-  model, // object || Arrray<Object>
-  mapModelStateToProps,  // function
-  mapModelToMutationsToProps, // function
-  ?option // object
+  model,// object || Arrray<Object>
+mapModelStateToProps,// function
+mapModelToMutationsToProps, // function
+?option// object
 )(ReactComponent);
 ```
+
 ### 参数描述
-* model
-  * 使用lugaix.register() 方法返回的model对象
-  * 数据类型
-    * object | Array<object>
-* mapModelStateToProps
-  * connect会根据这个方法返回的对象。将model里的state属性映射到this.props属性上
-  * (modelState) => {return {}}
-    * 当connect单个model时。modelState是当前model里的state对象
-    * 当connect多个model时。modelState是model里的state对象的数组。并且这个数组的顺序和connect时传入的model数组的顺序是一致的。
-* mapModelToMutationsToProps
-  * connect会根据这个方法返回的对象。将model里的mutations映射到this.props中.
-  * 数据类型
-    * (modelMutations) =>  { return {} }
-      * 当connect单个model是。modelMutations是当前model里的mutations对象
-      * 当connect多个model时。modelMutations是model里的mutations对象的数组。并且这个数组的顺序connect时传入的model数组的顺序是一致的。
-* option  其他扩展参数
-  * props  
-    * 传入一些属性值，connect会将这个对象属性映射到被绑定组件的 this.props 中。
-    * 数据类型
-      * object 
-  * eventHandle 
-    * 传入处理函数，connect会将这个对象属性映射到被绑定组件的 this.props 中。调用组件在props中的函数、mapModelMutations映射的函数、eventHandle传入的函数名字相同，会将三个函数合并为一个新函数，并在传给被bind的组件，这个新函数会依次执行以上三个函数。
-    * 数据类型
-      * { [eventName: string] : Function }
-  * areStateEqual
-    * 用户自定义方法, 当方法返回true时connect后的组件会被 render，当方法返回值为false时connect后的组件不会被render。
-    * 数据类型
-      * (oldModelState, newModelState)  => { return true or false}
-        * oldModelState是model改前的数据
-        *  newModelState是model改后的数据
-  * areStatePropsEqual
-    * 用户自定义方法，当这个方法返回true时bind后的组件会被 render，方法返回值为false时bind后的组件不会被render。
-    * 数据类型
-      * (oldState, newState)  => { return true or false}
-        * oldState组件更新前的state数据，对应的是model上state映射到this.props的值
-        * newState更新后的state数据，对应的是model上state映射到this.props的值
-  * areOwnPropsEqual
-    * 用户自定义方法，让这个方法返回true时connect后的组件会被 render，方法返回值为false时connect后的组件不会被render。
-    * 数据类型
-      * (oldProps, newProps)  => { return true or false}
-        * oldProps 是connect后的组件props改变前的数据，对应的是bind后返回组件在调用是传入的props属性值
-        * oldProps 是bind后的组件props改变后的数据，对应的是bind后返回组件在调用是传入的props属性值
-  * withRef 
-    * withRef是true时，可在bind()后返回的组件的ref中拿到被bind组件的实例。可以调用被bind组件上的方法或者属性(返回值的target属性)。如果withRef是false时，拿到被bind组件的实例
-    * 数据类型
-      * boolean
+
+- model
+  - 使用 lugaix.register() 方法返回的 model 对象
+  - 数据类型
+    - object | Array<object>
+- mapModelStateToProps
+  - connect 会根据这个方法返回的对象。将 model 里的 state 属性映射到 this.props 属性上
+  - (modelState) => {return {}}
+    - 当 connect 单个 model 时。modelState 是当前 model 里的 state 对象
+    - 当 connect 多个 model 时。modelState 是 model 里的 state 对象的数组。并且这个数组的顺序和 connect 时传入的 model 数组的顺序是一致的。
+- mapModelToMutationsToProps
+  - connect 会根据这个方法返回的对象。将 model 里的 mutations 映射到 this.props 中.
+  - 数据类型
+    - (modelMutations) => { return {} }
+      - 当 connect 单个 model 是。modelMutations 是当前 model 里的 mutations 对象
+      - 当 connect 多个 model 时。modelMutations 是 model 里的 mutations 对象的数组。并且这个数组的顺序 connect 时传入的 model 数组的顺序是一致的。
+- option 其他扩展参数
+  - props
+    - 传入一些属性值，connect 会将这个对象属性映射到被绑定组件的 this.props 中。
+    - 数据类型
+      - object
+  - eventHandle
+    - 传入处理函数，connect 会将这个对象属性映射到被绑定组件的 this.props 中。调用组件在 props 中的函数、mapModelMutations 映射的函数、eventHandle 传入的函数名字相同，会将三个函数合并为一个新函数，并在传给被 bind 的组件，这个新函数会依次执行以上三个函数。
+    - 数据类型
+      - { [eventName: string] : Function }
+  - areStateEqual
+    - 用户自定义方法, 当方法返回 true 时 connect 后的组件会被 render，当方法返回值为 false 时 connect 后的组件不会被 render。
+    - 数据类型
+      - (oldModelState, newModelState) => { return true or false}
+        - oldModelState 是 model 改前的数据
+        - newModelState 是 model 改后的数据
+  - areStatePropsEqual
+    - 用户自定义方法，当这个方法返回 true 时 bind 后的组件会被 render，方法返回值为 false 时 bind 后的组件不会被 render。
+    - 数据类型
+      - (oldState, newState) => { return true or false}
+        - oldState 组件更新前的 state 数据，对应的是 model 上 state 映射到 this.props 的值
+        - newState 更新后的 state 数据，对应的是 model 上 state 映射到 this.props 的值
+  - areOwnPropsEqual
+    - 用户自定义方法，让这个方法返回 true 时 connect 后的组件会被 render，方法返回值为 false 时 connect 后的组件不会被 render。
+    - 数据类型
+      - (oldProps, newProps) => { return true or false}
+        - oldProps 是 connect 后的组件 props 改变前的数据，对应的是 bind 后返回组件在调用是传入的 props 属性值
+        - oldProps 是 bind 后的组件 props 改变后的数据，对应的是 bind 后返回组件在调用是传入的 props 属性值
+  - withRef
+    - withRef 是 true 时，可在 bind()后返回的组件的 ref 中拿到被 bind 组件的实例。可以调用被 bind 组件上的方法或者属性(返回值的 target 属性)。如果 withRef 是 false 时，拿到被 bind 组件的实例
+    - 数据类型
+      - boolean
+
 ## 示例代码
-### **使用 content 将单个model和组件进行绑定，并调用mutations操作数据**
-在lugaix中注册mode
+
+### **使用 content 将单个 model 和组件进行绑定，并调用 mutations 操作数据**
+
+在 lugaix 中注册 mode
 
 ```
 // model.js
@@ -1132,7 +1226,9 @@ export const userModel = lugaix.register({
   },
 });
 ```
-使用connect将model和组件绑定
+
+使用 connect 将 model 和组件绑定
+
 ```
 // app.js
 import React from 'react';
@@ -1192,8 +1288,10 @@ const App = connect(
 )(UserList);
 export default App;
 ```
-### **使用 content 将单个model和组件进行绑定 - componentDidMount调用多个mutation渲染页面**
-在lugaix中注册mode
+
+### **使用 content 将单个 model 和组件进行绑定 - componentDidMount 调用多个 mutation 渲染页面**
+
+在 lugaix 中注册 mode
 
 ```
 // model.js
@@ -1275,7 +1373,9 @@ export const userModel = lugaix.register({
   },
 });
 ```
-使用connect将model和组件绑定
+
+使用 connect 将 model 和组件绑定
+
 ```
 // app.js
 import React from 'react';
@@ -1347,17 +1447,17 @@ const App = connect(
 )(UserList);
 export default App;
 ```
-### **使用 content 将多个model和组件进行绑定**
-在lugaix中注册mode
+
+### **使用 content 将多个 model 和组件进行绑定**
+
+在 lugaix 中注册 mode
 
 ```
 // model.js
 import lugaix from '@lugia/lugiax';
 const userModelName = 'userModel';
 const subjectModelName = 'subjectModel';
-const schoolModelName = 'schoolModel';
-
-const userState = {
+const schoolModelName = 'schoolModel';const userState = {
   peoples: [],
 };
 const subjectState = {
@@ -1365,9 +1465,7 @@ const subjectState = {
 };
 const schoolState = {
   schoolInfo: {},
-};
-
-export const userModel = lugaix.register({
+};export const userModel = lugaix.register({
   model: userModelName,
   state: userState,
   mutations: {
@@ -1393,9 +1491,7 @@ export const userModel = lugaix.register({
       },
     },
   },
-});
-
-export const subjectModel = lugaix.register({
+});export const subjectModel = lugaix.register({
   model: subjectModelName,
   state: subjectState,
   mutations: {
@@ -1427,9 +1523,7 @@ export const subjectModel = lugaix.register({
       },
     },
   },
-});
-
-export const schoolModel = lugaix.register({
+});export const schoolModel = lugaix.register({
   model: schoolModelName,
   state: schoolState,
   mutations: {
@@ -1456,7 +1550,9 @@ export const schoolModel = lugaix.register({
   },
 });
 ```
-使用connect将model和组件绑定
+
+使用 connect 将 model 和组件绑定
+
 ```
 // app.js
 import React from 'react';
@@ -1535,9 +1631,12 @@ const App = connect(
 )(UserList);
 export default App;
 ```
-### **connect方法中 options 的使用 **
-### areStateEqual connect 单个model 示例 
-在lugaix中注册mode
+
+### **connect 方法中 options 的使用**
+
+### areStateEqual connect 单个 model 示例
+
+在 lugaix 中注册 mode
 
 ```
 // model.js
@@ -1628,7 +1727,9 @@ export const userModel = lugaix.register({
   },
 });
 ```
-使用connect将model和组件绑定
+
+使用 connect 将 model 和组件绑定
+
 ```
 // app.js
 import React from 'react';
@@ -1690,9 +1791,7 @@ class UserList extends React.Component {
       </div>
     );
   }
-}
-
-const App = connect(
+}const App = connect(
   userModel,
   state => {
     const peoples = state.get('peoples').toJS ? state.get('peoples').toJS() : state.get('peoples');
@@ -1727,11 +1826,13 @@ const App = connect(
 )(UserList);
 export default App;
 ```
+
 运行结果
 ![图片](https://uploader.shimo.im/f/sUJu3mpU3b8dkXuT.jpg!thumbnail)
 
-### areStateEqual connect 多个model 示例 
-在lugaix中注册mode
+### areStateEqual connect 多个 model 示例
+
+在 lugaix 中注册 mode
 
 ```
 // model.js
@@ -1739,9 +1840,7 @@ import lugaix from '@lugia/lugiax';
 import { fromJS } from 'immutable';
 const userModelName = 'userModel';
 const subjectModelName = 'subjectModel';
-const schoolModelName = 'schoolModel';
-
-const userState = {
+const schoolModelName = 'schoolModel';const userState = {
   peoples: [],
 };
 const subjectState = {
@@ -1749,9 +1848,7 @@ const subjectState = {
 };
 const schoolState = {
   schoolInfo: {},
-};
-
-export const userModel = lugaix.register({
+};export const userModel = lugaix.register({
   model: userModelName,
   state: userState,
   mutations: {
@@ -1785,9 +1882,7 @@ export const userModel = lugaix.register({
       },
     },
   },
-});
-
-export const subjectModel = lugaix.register({
+});export const subjectModel = lugaix.register({
   model: subjectModelName,
   state: subjectState,
   mutations: {
@@ -1819,9 +1914,7 @@ export const subjectModel = lugaix.register({
       },
     },
   },
-});
-
-export const schoolModel = lugaix.register({
+});export const schoolModel = lugaix.register({
   model: schoolModelName,
   state: schoolState,
   mutations: {
@@ -1848,7 +1941,9 @@ export const schoolModel = lugaix.register({
   },
 });
 ```
-使用connect将model和组件绑定
+
+使用 connect 将 model 和组件绑定
+
 ```
 // app.js
 import React from 'react';
@@ -1910,9 +2005,7 @@ class UserList extends React.Component {
       </div>
     );
   }
-}
-
-const App = connect(
+}const App = connect(
   [userModel, subjectModel, schoolModel],
   state => {
     // 绑定多个model获取state状态如下，模块状态和传入model的顺序一致
@@ -1940,10 +2033,10 @@ const App = connect(
   },
   {
     // 返回true 渲染组件  返回false 不渲染组件
-    // 当connect多个model时 oldState是一个数组,存放着所有model的修改前的值，在数组中的顺序和传入model的一直
-    // 当connect多个model时 newState是一个数组,存放着所有model的修改后的值，在数组中的顺序和传入model的一直
+    // 当connect多个model时 oldState是一个数组,存放着所有model的修改前的值，在数组中的顺序和传入model的一致
+    // 当connect多个model时 newState是一个数组,存放着所有model的修改后的值，在数组中的顺序和传入model的一致
     areStateEqual(oldState, newState) {
-      const [oldUserState, oldSubjectState, OldSchoolState] = oldState;
+      const [oldUserState, oldSubjectSt  ate, OldSchoolState] = oldState;
       const [newUserState, newSubjectState, newSchoolState] = newState;
       const flag = newUserState.get('peoples').size > 2;
       if (!flag) {
@@ -1955,11 +2048,13 @@ const App = connect(
 )(UserList);
 export default App;
 ```
+
 运行结果
 ![图片](https://uploader.shimo.im/f/fDkUwetd2UwIZz7P.png!thumbnail)
 
-### areStatePropsEqual 示例 
-在lugaix中注册mode
+### areStatePropsEqual 示例
+
+在 lugaix 中注册 mode
 
 ```
 // model.js
@@ -1967,9 +2062,7 @@ import lugaix from '@lugia/lugiax';
 import { fromJS } from 'immutable';
 const userModelName = 'userModel';
 const subjectModelName = 'subjectModel';
-const schoolModelName = 'schoolModel';
-
-const userState = {
+const schoolModelName = 'schoolModel';const userState = {
   peoples: [],
 };
 const subjectState = {
@@ -1977,9 +2070,7 @@ const subjectState = {
 };
 const schoolState = {
   schoolInfo: {},
-};
-
-export const userModel = lugaix.register({
+};export const userModel = lugaix.register({
   model: userModelName,
   state: userState,
   mutations: {
@@ -2013,9 +2104,7 @@ export const userModel = lugaix.register({
       },
     },
   },
-});
-
-export const subjectModel = lugaix.register({
+});export const subjectModel = lugaix.register({
   model: subjectModelName,
   state: subjectState,
   mutations: {
@@ -2047,9 +2136,7 @@ export const subjectModel = lugaix.register({
       },
     },
   },
-});
-
-export const schoolModel = lugaix.register({
+});export const schoolModel = lugaix.register({
   model: schoolModelName,
   state: schoolState,
   mutations: {
@@ -2076,7 +2163,9 @@ export const schoolModel = lugaix.register({
   },
 });
 ```
-使用connect将model和组件绑定
+
+使用 connect 将 model 和组件绑定
+
 ```
 // app.js
 import React from 'react';
@@ -2138,9 +2227,7 @@ class UserList extends React.Component {
       </div>
     );
   }
-}
-
-const App = connect(
+}const App = connect(
   [userModel, subjectModel, schoolModel],
   state => {
     // 绑定多个model获取state状态如下，模块状态和传入model的顺序一致
@@ -2180,11 +2267,13 @@ const App = connect(
 )(UserList);
 export default App;
 ```
+
 运行结果
 ![图片](https://uploader.shimo.im/f/BbvsslrIiw0b0Yxo.png!thumbnail)
 
-### areOwnPropsEqual示例  
-在lugaix中注册mode
+### areOwnPropsEqual 示例
+
+在 lugaix 中注册 mode
 
 ```
 // model.js
@@ -2192,13 +2281,9 @@ import lugaix from '@lugia/lugiax';
 import { fromJS } from 'immutable';
 const userModelName = 'userModel';
 const subjectModelName = 'subjectModel';
-const schoolModelName = 'schoolModel';
-
-const userState = {
+const schoolModelName = 'schoolModel';const userState = {
   peoples: [],
-};
-
-export const userModel = lugaix.register({
+};export const userModel = lugaix.register({
   model: userModelName,
   state: userState,
   mutations: {
@@ -2234,7 +2319,9 @@ export const userModel = lugaix.register({
   },
 });
 ```
-使用connect将model和组件绑定
+
+使用 connect 将 model 和组件绑定
+
 ```
 // app.js
 import React from 'react';
@@ -2259,9 +2346,7 @@ class UserList extends React.Component {
       </div>
     );
   }
-}
-
-const App = connect(
+}const App = connect(
   userModel,
   state => {
     const peoples = state.get('peoples').toJS ? state.get('peoples').toJS() : state.get('peoples');
@@ -2283,9 +2368,7 @@ const App = connect(
       return flag;
     },
   }
-)(UserList);
-
-export default class Test extends React.Component {
+)(UserList);export default class Test extends React.Component {
   constructor() {
     super();
     this.state = { count: 0 };
@@ -2304,11 +2387,13 @@ export default class Test extends React.Component {
   }
 }
 ```
+
 运行结果
 ![图片](https://uploader.shimo.im/f/goQ5EgMkrg8q8IPa.png!thumbnail)
 
-### withRef 示例 
-在lugaix中注册mode
+### withRef 示例
+
+在 lugaix 中注册 mode
 
 ```
 // model.js
@@ -2354,7 +2439,9 @@ export const userModel = lugaix.register({
   },
 });
 ```
-使用connect将model和组件绑定
+
+使用 connect 将 model 和组件绑定
+
 ```
 // app.js
 import React from 'react';
@@ -2398,9 +2485,7 @@ const App = connect(
   {
     withRef: true,
   }
-)(UserList);
-
-export default class Test extends React.Component {
+)(UserList);export default class Test extends React.Component {
   constructor() {
     super();
     this.state = { componentName: '' };
@@ -2425,20 +2510,26 @@ export default class Test extends React.Component {
   }
 }
 ```
+
 # 路由管理
+
 ## createApp
+
 ### 描述
->使用createApp方法，创建根路由
+
+> 使用 createApp 方法，创建根路由
+
 ### 方法使用简述
-```
-createApp({
+
+```javascript
+createApp(
   routerMap: {
     [path: string]: {
       render?: Function,
-      exact?: boolean, 
-      strict?: boolean, 
-      component?: React.Component, 
-      onPageLoad?: Function, 
+      exact?: boolean,
+      strict?: boolean,
+      component?: React.Component,
+      onPageLoad?: Function,
       onPageUnLoad?: Function,
       verify?: Function,
       redirect?:{
@@ -2450,119 +2541,128 @@ createApp({
   history: Object,
   param?:{
     loading?: React.Component,
-    onBeforeGo?: (param: BeforeParam) => Promise<boolean>，
-    verifyUrl
+    onBeforeGo?: async function，
+    verifyUrl?: Function
   }
-})
+)
 ```
-### 参数描述
-* routerMap 
-  * path
-    * 路由匹配路径
-    * 数据类型
-      * object
-  * render
-    * 内联渲染，而且不会产生上文说的重复装载问题。
-    * 数据类型
-      * function
-  * exact
-    * exact表示location.pathnam值必须和path完全一致才渲染对应的组件,为true是表示严格匹配，要求路径与location.pathname必须完全匹配。
-    * 默认值为false
-    * 数据类型 
-      * boolean
-    * 匹配规则
-| 路由   | url   | exact   | 结果   |
-|:----:|:----:|:----:|:----:|:----:|:----:|:----:|:----:|
-| /one   | /one/two   | true   | no   |
-| /one   | /one/two   | false   | yes   |
 
->备注：如果没有子路由的情况，建议大家配都加一个exact；如果有子路由，建议在子路由中加exact，父路由不加；
-  * strict
-    * strict属性主要就是匹配反斜杠，规定是否匹配末尾包含反斜杠的路径，如果strict为true，则如果path中不包含反斜杠结尾，则他也不能匹配包含反斜杠结尾的路径，这个需要和exact结合使用
-    * 默认值false
-    * 数据类型 
-      * boolean
-    * 匹配规则
-| 路由   | url   | exact   | 结果   |
-|:----:|:----:|:----:|:----:|:----:|:----:|:----:|:----:|
-| /one/   | /one   | true   | no   |
-| /one/   | /one/   | true   | yes   |
-| /one/   | /one/two   | true   | yes   |
+### 参数描述
+
+- routerMap
+
+      * path
+          * 路由匹配路径
+          * 数据类型
+              * object
+      * render
+          * 内联渲染，而且不会产生上文说的重复装载问题。
+          * 数据类型
+              * function
+      * exact
+          * exact表示location.pathnam值必须和path完全一致才渲染对应的组件,为true是表示严格匹配，要求路径与location.pathname必须完全匹配。
+          * 默认值为false
+          * 数据类型
+              * boolean
+          * 匹配规则
+
+  | 路由 | url      | exact | 结果 |
+  | :--: | :------- | :---: | :--- |
+  | /one | /one/two | true  | no   |
+  | /one | /one/two | false | yes  |
+
+> 备注：如果没有子路由的情况，建议大家配都加一个 exact；如果有子路由，建议在子路由中加 exact，父路由不加；
+
+    * strict
+        * strict属性主要就是匹配反斜杠，规定是否匹配末尾包含反斜杠的路径，如果strict为true，则如果path中不包含反斜杠结尾，则他也不能匹配包含反斜杠结尾的路径，这个需要和exact结合使用
+        * 默认值false
+        * 数据类型
+            * boolean
+        * 匹配规则
+
+| 路由  | url      | exact | 结果 |
+| :---: | :------- | :---: | :--- |
+| /one/ | /one     | true  | no   |
+| /one/ | /one/    | true  | yes  |
+| /one/ | /one/two | true  | yes  |
 
 ![图片](https://uploader.shimo.im/f/zmO0Xrk7bnEWDAF2.png!thumbnail)
 
-  * component
-    * 路径对应显示的组件
-    * 数据类型
-      * function 或者 reactComponent
-  * onPageLoad
-    * 页面加载完成后执行
-    * 数据类型
-      * function
-  * onPageUnLoad
-    * 页面卸载时执行
-    * 数据类型
-      * function
-  * verify
-    * 单个路由同步验证方法，返回false 时渲染空页面，也可以在函数内部调用重定向的方法跳转的其他路由。当返回true会渲染routerMap.component 或者 routerMap.render对应的组件。
-    * 数据类型
-      * function({url}): boolean
-        * url表示当前路由地址
->备注：verfy必须是同步方法。
-  * redirect
-    * 当redirect.verify函数返回false重定向到redirect.to指定的路由。当返回true会渲染routerMap.component 或者 routerMap.render对应的组件。
-    * 数据类型
-      * object
-        * to 
-          * 重定向的路由地址 
-          * 数据类型
-            * string
-        * verify 
-          * 韩树重定向判断依据,如果函数返回值为false，进行重定向跳转。如果返回值为true会渲染routerMap.component 或者 routerMap.render对应的组件。
-          * 数据类型
-            * function({url})：boolean
-              * url表示当前路由地址
->备注：verfy必须是同步方法。
-* history
-  * 用于导航的历史对象。
-  * 数据类型 
-    * createBrowserHistory 
-    * createHashHistory 
-* param 其他扩展配置
-  * loading
-    * 页面为渲染之前的加载，loading组件
-    * 数据类型
-      * function 或者 reactComponent
-  * onBeforeGo
-    * 异步路由校验，可在内部使用进行重定向其他路由。切换路由时这个函数就会被调用，
-    * 数据类型
-      * async function({url})
-        * url表示当前路由地址
-  * verifyUrl
-    * 每个路由切换都会触发这个同步路由验证方法，返回false 时渲染空页面，也可以在函数内部调用重定向的方法跳转的其他路由。当返回true会渲染routerMap.component 或者 routerMap.render对应的组件。
-    * 数据类型
-      * function({url})：boolean
-        * url表示当前路由地址
->备注：verfyUrl必须是同步方法。
-### 路由校验verfyUrl、onBeforeGo、verify区别
-* 只有当前的location.pathnam和路由配置中的path相等时才会触发路由配置的verify函数。verify函数会在onBeforeGo和verfyUrl之前执行
-* 当未配置verify函数时verfyUrl函数会优先于onBeforeGo函数
-* 当verify函数和verfyUrl函数均未配置时才会执行onBeforeGo函数
-* onBeforeGo和verfyUrl只要路由执行都会执行
-* onBeforeGo和verfyUrl都配置时。只有verfyUrl生效
-* verfyUrl、verify是同步方法，onBeforeGo是异步方法
-### 返回值
-```
-<Router>
-  <Switch>
-     <Route></Route>
-      ...
-     <Route></Route>
-  </Switch>
-</Router>
-```
+    * component
+        * 路径对应显示的组件
+        * 数据类型
+            * function 或者 reactComponent
+    * onPageLoad
+        * 页面加载完成后执行
+        * 数据类型
+            * function
+    * onPageUnLoad
+        * 页面卸载时执行
+        * 数据类型
+            * function
+    * verify
+        * 单个路由同步验证方法，返回false 时渲染空页面，也可以在函数内部调用重定向的方法跳转的其他路由。当返回true会渲染routerMap.component 或者 routerMap.render对应的组件。
+        * 数据类型
+            * function({url}): boolean
+                * url表示当前路由地址
+
+> 备注：verfy 必须是同步方法。
+
+    * redirect
+        * 当redirect.verify函数返回false重定向到redirect.to指定的路由。当返回true会渲染routerMap.component 或者 routerMap.render对应的组件。
+        * 数据类型
+            * object
+                * to
+                    * 重定向的路由地址
+                    * 数据类型
+                        * string
+                * verify
+                    * 函数重定向判断依据,如果函数返回值为false，进行重定向跳转。如果返回值为true会渲染routerMap.component 或者 routerMap.render对应的组件。
+                    * 数据类型
+                        * function({url})：boolean
+                            * url表示当前路由地址
+
+> 备注：verfy 必须是同步方法。
+
+- history
+  - 用于导航的历史对象。
+  - 数据类型
+    - createBrowserHistory
+    - createHashHistory
+- param 其他扩展配置
+  _ loading
+  _ 页面为渲染之前的加载，loading 组件
+  _ 数据类型
+  _ function 或者 reactComponent
+  _ onBeforeGo
+  _ 异步路由校验，可在内部使用进行重定向其他路由。切换路由时这个函数就会被调用，
+  _ 数据类型
+  _ async function({url})
+  _ url 表示当前路由地址
+  _ verifyUrl
+  _ 每个路由切换都会触发这个同步路由验证方法，返回 false 时渲染空页面，也可以在函数内部调用重定向的方法跳转的其他路由。当返回 true 会渲染 routerMap.component 或者 routerMap.render 对应的组件。
+  _ 数据类型
+  _ function({url})：boolean
+  _ url 表示当前路由地址
+  > 备注：verifyUrl 必须是同步方法。
+
+### 路由校验 verifyUrl、onBeforeGo、verify 区别
+
+- verifyUrl、verify 是同步验证方法，onBeforeGo 是异步验证方法
+- 每次路由切换都会触发 onBeforeGo 函数或者 verifyUrl 函数。verify 函数只有在 location.pathname 和路由配置中的 path 相等或者被包含时才会被触发
+- verify 函数执行顺序在 onBeforeGo 函数和 verifyUrl 函数之前
+- 当有 verifyUrl 函数时 onBeforeGo 函时将不会执行，两者不能并存。
+
+**路由校验流程图**
+
+![图片](https://uploader.shimo.im/f/m4v4b99AyUG8OR0U.png!thumbnail)
+
+路由优先级：verify > ( verifyUrl | onBeforeGo )
+
 ## 示例代码
-### component示例
+
+### component 示例
+
 在入口文件中创建根路由
 
 ```
@@ -2593,7 +2693,9 @@ render(() => {
   return <App />;
 }, 'root');
 ```
+
 导出所有组件
+
 ```
 // main.js
 import React from 'react';
@@ -2601,30 +2703,26 @@ class UserInfo extends React.Component<any> {
   render() {
     return <div>用户详情页面</div>;
   }
-}
-
-class UserList extends React.Component<any> {
+}class UserList extends React.Component<any> {
   render() {
     return <div>用户里列表</div>;
   }
-}
-
-class UserAdd extends React.Component<any> {
+}class UserAdd extends React.Component<any> {
   render() {
     return <div>用户详添加页</div>;
   }
 }
 export { UserInfo, UserList, UserAdd };
 ```
-### render示例
+
+### render 示例
+
 ```
 // index.js 入口文件
 import React from 'react';
 import { createBrowserHistory } from 'history';
 import { createApp, go, goBack, goForward, render, replace } from '@lugia/lugiax-router';
-import UserAdd from './user/add';
-
-const history = createBrowserHistory();
+import UserAdd from './user/add';const history = createBrowserHistory();
 render(() => {
   const App = createApp(
     {
@@ -2652,7 +2750,9 @@ render(() => {
   return <App />;
 }, 'root');
 ```
+
 userList 组件
+
 ```
 // /user/list.js
 import React from 'react';
@@ -2662,7 +2762,9 @@ export default class UserList extends React.Component<any> {
   }
 }
 ```
+
 userAdd 组件
+
 ```
 // /user/add.js
 import React from 'react';
@@ -2672,7 +2774,9 @@ export default class UserAdd extends React.Component<any> {
   }
 }
 ```
+
 userInfo 组件
+
 ```
 // /user/info.js
 import React from 'react';
@@ -2682,7 +2786,9 @@ export default class UserInfo extends React.Component<any> {
   }
 }
 ```
-### redirect示例
+
+### redirect 示例
+
 用户未登录，重定到登录页面
 
 ```
@@ -2690,9 +2796,7 @@ export default class UserInfo extends React.Component<any> {
 import React from 'react';
 import { createBrowserHistory } from 'history';
 import { createApp, go, goBack, goForward, render, replace, Redirect } from '@lugia/lugiax-router';
-import { UserInfo, UserList, UserAdd, NoAuthority, Login } from './main';
-
-const history = createBrowserHistory();
+import { UserInfo, UserList, UserAdd, NoAuthority, Login } from './main';const history = createBrowserHistory();
 render(() => {
   const App = createApp(
     {
@@ -2736,11 +2840,10 @@ render(() => {
   return <App />;
 }, 'root');
 ```
+
 ```
 import React from 'react';
-import { go, Link, createRoute, goBack, goForward, replace } from '@lugia/lugiax-router';
-
-class UserInfo extends React.Component<any> {
+import { go, Link, createRoute, goBack, goForward, replace } from '@lugia/lugiax-router';class UserInfo extends React.Component<any> {
   render() {
     return (
       <div>
@@ -2749,9 +2852,7 @@ class UserInfo extends React.Component<any> {
       </div>
     );
   }
-}
-
-class UserList extends React.Component<any> {
+}class UserList extends React.Component<any> {
   render() {
     return (
       <div>
@@ -2760,9 +2861,7 @@ class UserList extends React.Component<any> {
       </div>
     );
   }
-}
-
-class UserAdd extends React.Component<any> {
+}class UserAdd extends React.Component<any> {
   render() {
     return (
       <div>
@@ -2771,9 +2870,7 @@ class UserAdd extends React.Component<any> {
       </div>
     );
   }
-}
-
-class Login extends React.Component<any> {
+}class Login extends React.Component<any> {
   login = () => {
     // 模拟异步请求
     new Promise(resolve => {
@@ -2792,9 +2889,7 @@ class Login extends React.Component<any> {
       </div>
     );
   }
-}
-
-class Head extends React.Component<any> {
+}class Head extends React.Component<any> {
   render() {
     return (
       <div>
@@ -2813,14 +2908,14 @@ class Head extends React.Component<any> {
 }
 export { UserInfo, UserList, UserAdd, Login, Head };
 ```
-### verify示例
+
+### verify 示例
+
 ```
 import React from 'react';
 import { createBrowserHistory } from 'history';
 import { createApp, go, goBack, goForward, render, replace, Redirect } from '@lugia/lugiax-router';
-import { UserInfo, UserList, UserAdd, NoAuthority } from './main';
-
-const history = createBrowserHistory();
+import { UserInfo, UserList, UserAdd, NoAuthority } from './main';const history = createBrowserHistory();
 render(() => {
   const App = createApp(
     {
@@ -2849,11 +2944,10 @@ render(() => {
   return <App />;
 }, 'root');
 ```
+
 ```
 import React from 'react';
-import { go, Link, createRoute, goBack, goForward, replace } from '@lugia/lugiax-router';
-
-class UserInfo extends React.Component<any> {
+import { go, Link, createRoute, goBack, goForward, replace } from '@lugia/lugiax-router';class UserInfo extends React.Component<any> {
   render() {
     return (
       <div>
@@ -2862,9 +2956,7 @@ class UserInfo extends React.Component<any> {
       </div>
     );
   }
-}
-
-class UserList extends React.Component<any> {
+}class UserList extends React.Component<any> {
   render() {
     return (
       <div>
@@ -2873,9 +2965,7 @@ class UserList extends React.Component<any> {
       </div>
     );
   }
-}
-
-class UserAdd extends React.Component<any> {
+}class UserAdd extends React.Component<any> {
   render() {
     return (
       <div>
@@ -2884,9 +2974,7 @@ class UserAdd extends React.Component<any> {
       </div>
     );
   }
-}
-
-class Head extends React.Component<any> {
+}class Head extends React.Component<any> {
   render() {
     return (
       <div>
@@ -2905,16 +2993,16 @@ class Head extends React.Component<any> {
 }
 export { UserInfo, UserList, UserAdd, Head };
 ```
-### verifyUrl示例 
-通verifyUrl函数 当url时/add时让页面重定到其他路由
+
+### verifyUrl 示例
+
+通 verifyUrl 函数 当 url 时/add 时让页面重定到其他路由
 
 ```
 import React from 'react';
 import { createBrowserHistory } from 'history';
 import { createApp, go, goBack, goForward, render, replace, Redirect } from '@lugia/lugiax-router';
-import { UserInfo, UserList, UserAdd, NoAuthority } from './main';
-
-const history = createBrowserHistory();
+import { UserInfo, UserList, UserAdd, NoAuthority } from './main';const history = createBrowserHistory();
 render(() => {
   const App = createApp(
     {
@@ -2946,11 +3034,10 @@ render(() => {
   return <App />;
 }, 'root')
 ```
+
 ```
 import React from 'react';
-import { go, Link, createRoute, goBack, goForward, replace } from '@lugia/lugiax-router';
-
-class UserInfo extends React.Component<any> {
+import { go, Link, createRoute, goBack, goForward, replace } from '@lugia/lugiax-router';class UserInfo extends React.Component<any> {
   render() {
     return (
       <div>
@@ -2959,9 +3046,7 @@ class UserInfo extends React.Component<any> {
       </div>
     );
   }
-}
-
-class UserList extends React.Component<any> {
+}class UserList extends React.Component<any> {
   render() {
     return (
       <div>
@@ -2970,9 +3055,7 @@ class UserList extends React.Component<any> {
       </div>
     );
   }
-}
-
-class UserAdd extends React.Component<any> {
+}class UserAdd extends React.Component<any> {
   render() {
     return (
       <div>
@@ -2981,9 +3064,7 @@ class UserAdd extends React.Component<any> {
       </div>
     );
   }
-}
-
-class Head extends React.Component<any> {
+}class Head extends React.Component<any> {
   render() {
     return (
       <div>
@@ -3002,14 +3083,14 @@ class Head extends React.Component<any> {
 }
 export { UserInfo, UserList, UserAdd, Head };
 ```
-### onBeforeGo示例
+
+### onBeforeGo 示例
+
 ```
 import React from 'react';
 import { createBrowserHistory } from 'history';
 import { createApp, go, goBack, goForward, render, replace, Redirect } from '@lugia/lugiax-router';
-import { UserInfo, UserList, UserAdd, NotFound } from './main';
-
-const history = createBrowserHistory();
+import { UserInfo, UserList, UserAdd, NotFound } from './main';const history = createBrowserHistory();
 render(() => {
   const App = createApp(
     {
@@ -3049,11 +3130,10 @@ render(() => {
   return <App />;
 }, 'root');
 ```
+
 ```
 import React from 'react';
-import { go, Link, createRoute, goBack, goForward, replace } from '@lugia/lugiax-router';
-
-class UserInfo extends React.Component<any> {
+import { go, Link, createRoute, goBack, goForward, replace } from '@lugia/lugiax-router';class UserInfo extends React.Component<any> {
   render() {
     return (
       <div>
@@ -3062,9 +3142,7 @@ class UserInfo extends React.Component<any> {
       </div>
     );
   }
-}
-
-class UserList extends React.Component<any> {
+}class UserList extends React.Component<any> {
   render() {
     return (
       <div>
@@ -3073,9 +3151,7 @@ class UserList extends React.Component<any> {
       </div>
     );
   }
-}
-
-class UserAdd extends React.Component<any> {
+}class UserAdd extends React.Component<any> {
   render() {
     return (
       <div>
@@ -3084,9 +3160,7 @@ class UserAdd extends React.Component<any> {
       </div>
     );
   }
-}
-
-class NotFound extends React.Component<any> {
+}class NotFound extends React.Component<any> {
   render() {
     return (
       <div>
@@ -3095,9 +3169,7 @@ class NotFound extends React.Component<any> {
       </div>
     );
   }
-}
-
-class Head extends React.Component<any> {
+}class Head extends React.Component<any> {
   render() {
     return (
       <div>
@@ -3116,104 +3188,112 @@ class Head extends React.Component<any> {
 }
 export { UserInfo, UserList, UserAdd, Head, NotFound };
 ```
-## createRoute
-### 描述
->使用createRoute方法，创建子路由
-### 方法使用简述
-```
-createRoute({
-  [path: string]:{
-    render?: Function,
-    exact?: boolean, 
-    strict?: boolean, 
-    component?: React.Component, 
-    onPageLoad?: Function, 
-    onPageUnLoad?: Function,
-    verify?: Function,
-    redirect?:{
-       to: '/login',
-       verify?: Function
-    }
-  }
-})
-```
-### 参数描述
-  * path
-    * 路由匹配路径
-    * 数据类型
-      * object
-  * render
-    * 内联渲染，而且不会产生上文说的重复装载问题。
-    * 数据类型
-      * function
-  * exact
-    * exact表示location.pathnam值必须和path完全一致才渲染对应的组件,为true是表示严格匹配，要求路径与location.pathname必须完全匹配。
-    * 默认值为false
-    * 数据类型 
-      * boolean
-    * 匹配规则
-| 路由   | url   | exact   | 结果   |
-|:----:|:----:|:----:|:----:|:----:|:----:|:----:|:----:|
-| /one   | /one/two   | true   | no   |
-| /one   | /one/two   | false   | yes   |
 
->备注：如果没有子路由的情况，建议大家配都加一个exact；如果有子路由，建议在子路由中加exact，父路由不加；
-  * strict
-    * strict属性主要就是匹配反斜杠，规定是否匹配末尾包含反斜杠的路径，如果strict为true，则如果path中不包含反斜杠结尾，则他也不能匹配包含反斜杠结尾的路径，这个需要和exact结合使用
-    * 默认值false
-    * 数据类型 
-      * boolean
-    * 匹配规则
-| 路由   | url   | exact   | 结果   |
-|:----:|:----:|:----:|:----:|:----:|:----:|:----:|:----:|
-| /one/   | /one   | true   | no   |
-| /one/   | /one/   | true   | yes   |
-| /one/   | /one/two   | true   | yes   |
+## createRoute
+
+### 描述
+
+> 使用 createRoute 方法，创建子路由
+
+### 方法使用简述
+
+```
+  createRoute({
+    [path: string]:{
+      render?: Function,
+      exact?: boolean,
+      strict?: boolean,
+      component?: React.Component,
+      onPageLoad?: Function,
+      onPageUnLoad?: Function,
+      verify?: Function,
+      redirect?:{
+         to: '/login',
+         verify?: Function
+      }
+    }
+  })
+```
+
+### 参数描述
+
+    * path
+        * 路由匹配路径
+        * 数据类型
+            * object
+    * render
+        * 内联渲染，而且不会产生上文说的重复装载问题。
+        * 数据类型
+            * function
+    * exact
+        * exact表示location.pathnam值必须和path完全一致才渲染对应的组件,为true是表示严格匹配，要求路径与location.pathname必须完全匹配。
+        * 默认值为false
+        * 数据类型
+            * boolean
+        * 匹配规则
+
+| 路由 | url      | exact | 结果 |
+| :--: | :------- | :---: | :--- |
+| /one | /one/two | true  | no   |
+| /one | /one/two | false | yes  |
+
+> 备注：如果没有子路由的情况，建议大家配都加一个 exact；如果有子路由，建议在子路由中加 exact，父路由不加；
+
+    * strict
+        * strict属性主要就是匹配反斜杠，规定是否匹配末尾包含反斜杠的路径，如果strict为true，则如果path中不包含反斜杠结尾，则他也不能匹配包含反斜杠结尾的路径，这个需要和exact结合使用
+        * 默认值false
+        * 数据类型
+            * boolean
+        * 匹配规则
+
+| 路由  | url      | exact | 结果 |
+| :---: | :------- | :---: | :--- |
+| /one/ | /one     | true  | no   |
+| /one/ | /one/    | true  | yes  |
+| /one/ | /one/two | true  | yes  |
 
 ![图片](https://uploader.shimo.im/f/zmO0Xrk7bnEWDAF2.png!thumbnail)
 
-  * component
-    * 路径对应显示的组件
-    * 数据类型
-      * function 或者 reactComponent
-  * onPageLoad
-    * 页面加载完成后执行
-    * 数据类型
-      * function
-  * onPageUnLoad
-    * 页面卸载时执行
-    * 数据类型
-      * function
-  * verify
-    * 单个路由同步验证方法，返回false 时渲染空页面，也可以在函数内部调用重定向的方法跳转的其他路由。当返回true会渲染routerMap.component 或者 routerMap.render对应的组件。
-    * 数据类型
-      * function({url}): boolean
-        * url表示当前路由地址
->备注：verfy必须是同步方法。
-  * redirect
-    * 当redirect.verify函数返回false重定向到redirect.to指定的路由。当返回true会渲染routerMap.component 或者 routerMap.render对应的组件。
-    * 数据类型
-      * object
-        * to 
-          * 重定向的路由地址 
-          * 数据类型
-            * string
-        * verify 
-          * 韩树重定向判断依据,如果函数返回值为false，进行重定向跳转。如果返回值为true会渲染routerMap.component 或者 routerMap.render对应的组件。
-          * 数据类型
-            * function({url})：boolean
-              * url表示当前路由地址
->备注：verfy必须是同步方法。
-### 返回值
-```
-<Switch>
-   <Route></Route>
-    ...
-   <Route></Route>
-</Switch>
-```
+    * component
+        * 路径对应显示的组件
+        * 数据类型
+            * function 或者 reactComponent
+    * onPageLoad
+        * 页面加载完成后执行
+        * 数据类型
+            * function
+    * onPageUnLoad
+        * 页面卸载时执行
+        * 数据类型
+            * function
+    * verify
+        * 单个路由同步验证方法，返回false 时渲染空页面，也可以在函数内部调用重定向的方法跳转的其他路由。当返回true会渲染routerMap.component 或者 routerMap.render对应的组件。
+        * 数据类型
+            * function({url}): boolean
+                * url表示当前路由地址
+
+> 备注：verfy 必须是同步方法。
+
+    * redirect
+        * 当redirect.verify函数返回false重定向到redirect.to指定的路由。当返回true会渲染routerMap.component 或者 routerMap.render对应的组件。
+        * 数据类型
+            * object
+                * to
+                    * 重定向的路由地址
+                    * 数据类型
+                        * string
+                * verify
+                    * 韩树重定向判断依据,如果函数返回值为false，进行重定向跳转。如果返回值为true会渲染routerMap.component 或者 routerMap.render对应的组件。
+                    * 数据类型
+                        * function({url})：boolean
+                            * url表示当前路由地址
+
+> 备注：verfy 必须是同步方法。
+
 ## 示例代码
-### 使用createRoute创建子路由
+
+### 使用 createRoute 创建子路由
+
 ```
 import React from 'react';
 import { createBrowserHistory } from 'history';
@@ -3257,11 +3337,10 @@ render(() => {
   return <App />;
 }, 'root');
 ```
+
 ```
 import React from 'react';
-import { go, Link, createRoute, goBack, goForward, Redirect } from '@lugia/lugiax-router';
-
-class UserInfo extends React.Component<any> {
+import { go, Link, createRoute, goBack, goForward, Redirect } from '@lugia/lugiax-router';class UserInfo extends React.Component<any> {
   render() {
     return (
       <div>
@@ -3270,9 +3349,7 @@ class UserInfo extends React.Component<any> {
       </div>
     );
   }
-}
-
-class UserList extends React.Component<any> {
+}class UserList extends React.Component<any> {
   render() {
     return (
       <div>
@@ -3281,9 +3358,7 @@ class UserList extends React.Component<any> {
       </div>
     );
   }
-}
-
-class UserAdd extends React.Component<any> {
+}class UserAdd extends React.Component<any> {
   render() {
     return (
       <div>
@@ -3292,15 +3367,11 @@ class UserAdd extends React.Component<any> {
       </div>
     );
   }
-}
-
-export class NotFound extends React.Component<any> {
+}export class NotFound extends React.Component<any> {
   render() {
     return <div>未找到页面</div>;
   }
-}
-
-class Head extends React.Component<any> {
+}class Head extends React.Component<any> {
   render() {
     return (
       <div>
@@ -3316,9 +3387,7 @@ class Head extends React.Component<any> {
       </div>
     );
   }
-}
-
-const routerMap = {
+}const routerMap = {
   '/': {
     exact: true,
     component: UserList,
@@ -3344,9 +3413,7 @@ const routerMap = {
       />
     ),
   },
-};
-
-export default () => {
+};export default () => {
   return (
     <React.Fragment>
       {createRoute(routerMap)}
@@ -3354,76 +3421,484 @@ export default () => {
   );
 };
 ```
->render、exact、strict、component、onPageLoad、onPageUnLoad、verify、 redirect等用法和careteApp相同
-# API说明
+
+> render、exact、strict、component、onPageLoad、onPageUnLoad、verify、 redirect 等用法和 careteApp 相同
+
+# Lugiax 插件
+
+解决问题：我们经常会通 lugaix 管理模型的 State。但是使用 lugaix 存储 State 数据时会有这么一个问题，如果用户刷新了网页，那么我们通过 lugaix 存储的 State 数据就会被全部清空。
+
+# 持久化插件
+
+## 如何安装
+
+### npm
+
+```
+npm install @lugia/lugiax-persistence
+```
+
+### yarn
+
+> 推荐使用 yarn 管理 npm 依赖
+
+```
+yarn add @lugia/lugiax-persistence
+```
+
+## 如何使用
+
+### 使用 lugaix 内置默认持久化控制器
+
+示例代码
+
+```javascript
+// 注册持久化model
+import lugaix from '@lugia/lugiax';
+import wrapPersistence from '@lugia/lugiax-persistence';
+const userState = {
+  peoples: [
+    { id: '1', name: '小名', age: 18, hobby: '睡觉' },
+    { id: '2', name: '小王', age: 18, hobby: '打游戏' },
+    { id: '3', name: '小张', age: 18, hobby: '看电视' },
+    { id: '4', name: '小李', age: 18, hobby: '看小说' },
+  ],
+};
+const modelName = 'userInfo';
+export const userModel = lugaix.register(
+  wrapPersistence({
+    model: modelName,
+    state: userState,
+    mutations: {
+      sync: {
+        // 同步删除方法
+        removePeopleById(state, inpar, { mutations }) {
+          // 获取的数据类型为 Immutable
+          const list = state.get('peoples'); // Immutable数据的操作方法请参考官网
+          const newList = list.filter(item => {
+            return item.get('id') != inpar.id;
+          });
+          return state.set('peoples', newList);
+        },
+      },
+      async: {
+        // 异步删除方法。这里用setTimeout代表异步ajax请求。请求删除数据
+        async removePeopleById(state, inpar, { mutations, getState }) {
+          const data = await new Promise(reslove => {
+            setTimeout(() => {
+              reslove({ result: 'ok' });
+            }, 1000);
+          });
+          if (data.result === 'ok') {
+            // mutations.removePeopleById调用过后会返回最新的state,
+            // 这里一定要返回最新的state。
+            // state = mutations.removePeopleById(inpar);
+            // 或者调用完mutation方法后使用getState方法获取最新的state并返回
+            mutations.removePeopleById(inpar);
+            state = getState();
+          }
+          return state;
+        },
+      },
+    },
+  })
+);
+```
+
+```javascript
+// 绑定model并使用
+import React from 'react';
+import { connect } from '@lugia/lugiax';
+import { userModel } from './model';
+class UserList extends React.Component {
+  state = { loading: false };
+  render() {
+    const { list, removePeopleById, asyncRemovePeopleById } = this.props;
+    return (
+      <div>
+                
+        {list.map(item => {
+          console.log('item', item);
+          return (
+            <p>
+                            <span>姓名：{item.name}</span>
+                            <span>&nbsp;年龄：{item.age}</span>
+                            <span>&nbsp;爱好：{item.hobby}</span>
+                            <span
+                onClick={() => {
+                  asyncRemovePeopleById(item);
+                }}
+              >
+                                &nbsp;异步删除               
+              </span>
+                            
+              <span
+                onClick={() => {
+                  removePeopleById(item);
+                }}
+              >
+                                &nbsp;同步删除               
+              </span>
+                          
+            </p>
+          );
+        })}
+              
+      </div>
+    );
+  }
+}
+const App = connect(
+  userModel,
+  state => {
+    const list = state.get('peoples').toJS ? state.get('peoples').toJS() : state.get('peoples');
+    return { list };
+  },
+  mutations => {
+    console.log(mutations);
+    const { removePeopleById, asyncRemovePeopleById } = mutations;
+    return {
+      removePeopleById,
+      asyncRemovePeopleById,
+    };
+  }
+)(UserList);
+export default App;
+```
+
+### 使用用户自定义持久化控制器
+
+示例代码
+
+```javascript
+// lugaix-persist.js
+import { registerPersistence } from '@lugia/lugiax-persistence';
+const domainName = 'my_data';
+const objectStringToJson = (str: string) => {
+  try {
+    return JSON.parse(str);
+  } catch (ex) {
+    console.warn('持久化的JSON字符串转为成对象时报错，请核实数据！', ex.message);
+    return {};
+  }
+};
+const getStateBySession = modelName => {
+  let persistData = objectStringToJson(window.sessionStorage.getItem(domainName));
+  if (!persistData) {
+    persistData = {};
+  }
+  return persistData[modelName];
+};
+const saveStateBySession = (modelName, state) => {
+  try {
+    const persistData = objectStringToJson(window.sessionStorage.getItem(domainName)) || {};
+    persistData[modelName] = state.toJS() || {};
+    window.sessionStorage.setItem(domainName, JSON.stringify(persistData));
+    return true;
+  } catch (ex) {
+    console.warn('持久化数据保存失败！', ex.message);
+    return false;
+  }
+};
+const Persistence = {
+  getStore: getStateBySession,
+  saveStore: saveStateBySession,
+};
+registerPersistence(Persistence, 'mySession');
+```
+
+```
+// 注册持久化model
+// model.js
+import lugaix from '@lugia/lugiax';
+import wrapPersistence from '@lugia/lugiax-persistence';
+const userState = {
+  peoples: [
+    { id: '1', name: '小名', age: 18, hobby: '睡觉' },
+    { id: '2', name: '小王', age: 18, hobby: '打游戏' },
+    { id: '3', name: '小张', age: 18, hobby: '看电视' },
+    { id: '4', name: '小李', age: 18, hobby: '看小说' },
+  ],
+};
+const modelName = 'userInfo';
+export const userModel = lugaix.register(
+  wrapPersistence(
+    {
+      model: modelName,
+      state: userState,
+      mutations: {
+        sync: {
+          // 同步删除方法
+          removePeopleById(state, inpar, { mutations }) {
+            // 获取的数据类型为 Immutable
+            const list = state.get('peoples');
+            // Immutable数据的操作方法请参考官网
+            const newList = list.filter(item => {
+              return item.get('id') != inpar.id;
+            });
+            return state.set('peoples', newList);
+          },
+        },
+        async: {
+          // 异步删除方法。这里用setTimeout代表异步ajax请求。请求删除数据
+          async removePeopleById(state, inpar, { mutations, getState }) {
+            const data = await new Promise(reslove => {
+              setTimeout(() => {
+                reslove({ result: 'ok' });
+              }, 1000);
+            });
+            if (data.result === 'ok') {
+              // mutations.removePeopleById调用过后会返回最新的state,
+              // 这里一定要返回最新的state。
+              // state = mutations.removePeopleById(inpar);
+              // 或者调用完mutation方法后使用getState方法获取最新的state并返回
+              mutations.removePeopleById(inpar);
+              state = getState();
+            }
+            return state;
+          },
+        },
+      },
+    },
+    { name: 'mySession' }
+  )
+);
+```
+
+```javascript
+// 绑定model并使用
+import React from 'react';
+import { connect } from '@lugia/lugiax';
+import { userModel } from './model';
+class UserList extends React.Component {
+  state = { loading: false };
+  render() {
+    const { list, removePeopleById, asyncRemovePeopleById } = this.props;
+    return (
+      <div>
+                
+        {list.map(item => {
+          console.log('item', item);
+          return (
+            <p>
+                            <span>姓名：{item.name}</span>
+                            <span>&nbsp;年龄：{item.age}</span>
+                            <span>&nbsp;爱好：{item.hobby}</span>
+                            <span
+                onClick={() => {
+                  asyncRemovePeopleById(item);
+                }}
+              >
+                                &nbsp;异步删除               
+              </span>
+                            
+              <span
+                onClick={() => {
+                  removePeopleById(item);
+                }}
+              >
+                                &nbsp;同步删除               
+              </span>
+                          
+            </p>
+          );
+        })}
+              
+      </div>
+    );
+  }
+}
+const App = connect(
+  userModel,
+  state => {
+    const list = state.get('peoples').toJS ? state.get('peoples').toJS() : state.get('peoples');
+    return { list };
+  },
+  mutations => {
+    console.log(mutations);
+    const { removePeopleById, asyncRemovePeopleById } = mutations;
+    return {
+      removePeopleById,
+      asyncRemovePeopleById,
+    };
+  }
+)(UserList);
+export default App;
+```
+
+## API 说明
+
+### registerPersistence
+
+注册获取和存储数据持久化控制器
+
+#### 方法使用简述
+
+```javascript
+import { registerPersistence } from '@lugia/lugiax-persistence';
+registerPersistence(
+  (persistDataFn: {
+    getStore(model: string): Object,
+    saveStore(model: string, state: Object): boolean,
+  }),
+  (name: string = 'default')
+);
+```
+
+> 数据持久化控制器是用来指定用户存储 state 的方法和获取 state 的方法
+
+```plain
+数据持久化控制器结构
+{
+    getStore (model: string): Object,
+    saveStore (model: string, state: Object): boolean
+}
+```
+
+### getPersistence
+
+根据名称控制器名字获取数据持久化控制器
+
+#### 方法使用简述
+
+```javascript
+import { getPersistence } from '@lugia/lugiax-persistence';
+getPersistence((name: string));
+```
+
+### clearPersistence
+
+清除所有数据持久化控制器
+
+#### 方法使用简述
+
+```javascript
+import { clearPersistence } from '@lugia/lugiax-persistence';
+clearPersistence();
+```
+
+### unRegisterPersistence()
+
+根据控制器名字注销数据持久化控制器
+
+#### 方法使用简述
+
+```javascript
+import { unRegisterPersistence } from '@lugia/lugiax-persistence';
+unRegisterPersistence((name: string));
+```
+
+### @lugia/lugiax-persistence 导出默认方法
+
+将 state 变成持久化的 state
+
+#### 方法使用简述
+
+```javascript
+import lugaix from '@lugia/lugiax';
+import wrapPersistence from '@lugia/lugiax-persistence';
+lugaix.register(
+  wrapPersistence(
+    { model: string,state: Object,mutations?: Mutations},
+    { name: string ='default'}
+  )
+)
+```
+
+# API 说明
+
 ## lugiax
-### lugiax.register() 
-在lugiax中注册model。注册好的model可以通过bind、bindTo、connect方法和组件进行绑定。
+
+### lugiax.register()
+
+在 lugiax 中注册 model。注册好的 model 可以通过 bind、bindTo、connect 方法和组件进行绑定。
 
 ### lugiax.getState()
-获取lugiax中的所有model的state状态。
+
+获取 lugiax 中的所有 model 的 state 状态。
 
 ### lugiax.getModelData(nodeName:string)
-通过模块名称获取，这个model中的state
+
+通过模块名称获取，这个 model 中的 state
 
 ### lugiax.clear()
-清空lugiax中所有的model对象。
+
+清空 lugiax 中所有的 model 对象。
 
 ### lugiax.on()
-mutation被调用后都会触发on方法中的回调函数。
+
+mutation 被调用后都会触发 on 方法中的回调函数。
 
 ### bind()
-将表单类型组件和单个model进行双向绑定，需开发者指定model中mutations和组件事件的调用关系
+
+将表单类型组件和单个 model 进行双向绑定，需开发者指定 model 中 mutations 和组件事件的调用关系
 
 ### bindTo()
-将表单类型组件和单个model进行双向绑定，是对bind的一种封装。会自动生成mutations和组件事件的调用关系。
+
+将表单类型组件和单个 model 进行双向绑定，是对 bind 的一种封装。会自动生成 mutations 和组件事件的调用关系。
 
 ### connect()
-将组件和一个或者多个model进行单向绑定。
+
+将组件和一个或者多个 model 进行单向绑定。
 
 ## lugiax-router
+
 ### createApp
+
 创建根路由
 
 ### createRoute
+
 创建子路由
 
 ### render
-将component组件渲染到指定id的dom元素
+
+将 component 组件渲染到指定 id 的 dom 元素
 
 ```
 render(component, domId)
 ```
+
 ### go
-路由调转方法，当参数是url时，跳转到对应路由。如果参数是count时，当count为正数时路由前进到对应的次数路由。如果count为负数时路由后退到对应的次数的路由。
+
+路由调转方法，当参数是 url 时，跳转到对应路由。如果参数是 count 时，当 count 为正数时路由前进到对应的次数路由。如果 count 为负数时路由后退到对应的次数的路由。
 
 ```
 go({ count: -2, });
 go({ url: '/sport'});
 ```
+
 ### goBack
+
 路由后退一次
 
 ```
 等价于 go({ count: -1 });
 ```
+
 ### goForward
+
 路由向前一次
 
 ```
 等价于 go({ count: 1 });
 ```
+
 ### replace
-把当前A的路由地址替换成参数中url的路由地址。
+
+把当前 A 的路由地址替换成参数中 url 的路由地址。
 
 ```
 replace({ url: '/sport', });
 ```
+
 ### Redirect
-等价于react-router中的Redirect
+
+等价于 react-router 中的 Redirect
 
 ### Link
-路由跳转的标签，to属性用来表示跳转指定的路由，最终标签会被便以为a标签展示在页面上
+
+路由跳转的标签，to 属性用来表示跳转指定的路由，最终标签会被便以为 a 标签展示在页面上
 
 ```
  <Link to="/sport" id="sport"> 运动 </Link>
